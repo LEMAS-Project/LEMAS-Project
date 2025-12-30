@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models">
+  <meta name="keywords" content="LEMAS, Speech Synthesis, TTS, Speech Editing, Dataset, Multilingual">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LEMAS Project Page</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Noto Sans', sans-serif; }
+    .title.is-1 { font-family: 'Google Sans', sans-serif; font-weight: 700; }
+    .author-block { font-size: 1.25rem; }
+    .publication-links { margin-top: 20px; }
+    .button.is-dark { background-color: #363636; border-color: transparent; color: #fff; }
+    .button.is-dark:hover { background-color: #292929; }
+    .icon { margin-right: 5px; }
+    .teaser-img { width: 100%; max-width: 900px; margin: 0 auto; display: block; }
+    .abstract-text { font-size: 1.1rem; line-height: 1.6; }
+    .bibtex-section { background-color: #f5f5f5; padding: 20px; border-radius: 10px; overflow-x: auto; }
+    pre { background-color: transparent; padding: 0; }
+
+    .audio-section-intro { max-width: 800px; margin: 0 auto 2rem auto; }
+    .audio-sample { margin-bottom: 1.5rem; }
+    .audio-row { margin-bottom: 0.5rem; }
+    .audio-label { font-size: 0.9rem; font-weight: 600; }
+    .audio-player-group { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.75rem; }
+    .audio-player-group > div { text-align: center; }
+    .audio-player-group audio { width: 200px; max-width: 100%; margin-bottom: 0.25rem; }
+    .method-tag { font-size: 0.8rem; margin-bottom: 0.2rem; display: inline-block; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Zhiyuan Zhao, Lijian Lin, Ye Zhu, Kai Xie, Yunfei Liu, Yu Li
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">International Digital Economy Academy (IDEA)</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+
+              <span class="link-block">
+                <a href="doc/report.pdf" target="_blank" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Tech Report</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://huggingface.co/LEMAS-Project" target="_blank" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fa-solid fa-database"></i></span>
+                  <span>Dataset</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://github.com/LEMAS-Project" target="_blank" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="YOUR_HUGGINGFACE_SPACE_URL" target="_blank" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fa-solid fa-play"></i></span>
+                  <span>Demo</span>
+                </a>
+              </span>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <img src="doc/teaser.png"
+             alt="LEMAS dataset pipeline and benchmark models"
+             class="teaser-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified abstract-text">
+          <p>
+            The development of generative speech models is increasingly constrained by the trade-off between data scale and quality.
+            While recent large-scale web-crawled corpora provide abundant audio, they often lack reliable quality and fine-grained annotations.
+          </p>
+          <p>
+            To address this bottleneck, we present the <strong>LEMAS-Dataset</strong>, which constitutes <strong>150,000+ hours</strong> of multilingual speech
+            across 10 major languages, equipped with rigorous word-level timestamps. Constructed via a robust pipeline integrating
+            <strong>Uroman-based normalization</strong> and <strong>MMS forced alignment</strong>, LEMAS ensures high temporal precision even for in-the-wild recordings.
+          </p>
+          <p>
+            We further validate the dataset through two foundation models: <strong>LEMAS-TTS</strong> (a flow-matching model for zero-shot synthesis)
+            and <strong>LEMAS-Edit</strong> (a codec-based model for precise speech editing), demonstrating that high-quality alignment is key
+            to next-generation speech generation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dataset comparison -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Comparison with Existing Datasets</h2>
+    <div class="content">
+      <div class="table-container">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered">
+          <thead>
+            <tr>
+              <th>Dataset</th>
+              <th>Hours</th>
+              <th>Languages</th>
+              <th>Word-level Alignments</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Libri-light</td>
+              <td>60k</td>
+              <td>1</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>Audiobook</td>
+            </tr>
+            <tr>
+              <td>GigaSpeech</td>
+              <td>10k</td>
+              <td>1</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>Multi-domain</td>
+            </tr>
+            <tr>
+              <td>MLS</td>
+              <td>51k</td>
+              <td>8</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>Audiobook</td>
+            </tr>
+            <tr>
+              <td>Emilia</td>
+              <td>101k</td>
+              <td>6</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>In-the-wild</td>
+            </tr>
+            <tr style="background-color: #e8f5e9; font-weight: bold;">
+              <td>LEMAS (Ours)</td>
+              <td>150k</td>
+              <td>10</td>
+              <td><i class="fas fa-check has-text-success"></i></td>
+              <td>Multi-domain</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEMAS-TTS audio examples -->
+<section class="section" id="tts-examples">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">LEMAS-TTS: Multilingual Zero-shot Synthesis</h2>
+    <div class="content audio-section-intro has-text-justified">
+      <p>
+        We showcase zero-shot multilingual and cross-lingual synthesis with a short reference speech clip and reference text,
+        and generate target speech conditioned on the target text. For each example, we provide the reference speech (ground truth)
+        and three target-speech systems: a strong baseline (<strong>OpenAudio-S1-mini</strong>), our <strong>LEMAS-TTS</strong>,
+        and <strong>LEMAS-TTS + Prosody Encoder</strong>.
+      </p>
+    </div>
+
+    <!-- TTS Example 1 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 1</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>Wir bleiben für immer vereint. Wir gegen den Rest der Welt,</p>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren Lichtkörpern öffnen</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Reference (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/gt/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 2 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 2</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>im Bereich des Netzteiles sogar etwas zu offen, im Hinblick auf die Isolierung der Netzspannung.</p>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>甚至有的人总觉得自己怀才不遇，好像世界上的人都辜负自己，都对不起自己。</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Reference (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/gt/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 3 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 3</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>FOR THEY DID NOT SUSPECT HIM TO BE THEIR ENEMY AND HE GAINED IT THUS</p>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren Lichtkörpern öffnen</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Reference (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/gt/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 4 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 4</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>THEY WERE SET DOWN AT A SMALL GROUP OF FARMHOUSES</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>LOCATION DATA IS ALSO SOME OF OUR MOST PERSONAL INFORMATION</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 5 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 5</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>y podía regalar a los que a su casa llegasen.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>CITY PLANNING ECONOMIC DEVELOPMENT AND SOCIAL SERVICES TOGETHER</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 6 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 6</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>se ubicaron dentro otras dependencias como La Real Audiencia, la ca rcel y las Cajas Reales.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 7 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 7</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>cinq étapes pour rédiger votre Règlement intérieur!</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 8 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 8</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>s il dit après je suis désolé vous pouvez faire confiance à son je suis désolé.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>mourir dans la nature? Parce qu avant de mourir, ils ont le temps de se reproduire!</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 9 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 9</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>yang beriman di antara kalian beriman di antara kalian</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>cinq étapes pour rédiger votre Règlement intérieur!</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 10 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 10</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>tanggal dan bulan saya tidak bisa dapat yang tau bisa berbagi informasi di kolom komentar</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>yang ke tiga, kemudian rukuk dan memanjangkan rukuknya</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 11 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 11</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>condizioni, in determinate situazioni e dovremmo riconoscere solo determinati diritti.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>dari para perampok tersebut beruntung anaknya selamat meskipun mengalami luka tembak di bagian</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 12 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 12</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>sarebbero stati studiati i metodi di cura del Dottore dei miracoli.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>e quello era Come NON EFFETTUARE una chiamata di emergenza.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 13 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 13</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>e as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>No, non l ascoltavo e le dissi, Non venire qui con questa roba.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 14 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 14</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>Outra coisa que também podemos dizer sobre as terminações é que podem ser chamadas de sufixo.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>e as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 15 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 15</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>но я не могу сделать то, о чем вы просите.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>того, кто ниже ума, мы называем будду, дурачок.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 16 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 16</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>приветствую вас на канале вкусные рецепты.</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>e não são estas aquelas mesmas águas..</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 17 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 17</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>bàn ăn với mười hai môn đệ và khi các ông đang</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>và bì trộn, với cơm tấm. thế là mình có món, cơm tấm bì cho ngày hôm sau.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 18 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 18</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>bởi vì gu ti vi và bên đại lý không tìm</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>приветствую вас на канале вкусные рецепты.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 19 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 19</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>直到最近，我们需要的大部分东西都是手工制作的。</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>sau này thiên hạ sẽ quy về dòng họ tư mã. đám trẻ sau khi nghe tin tức này đều sợ hãi,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TTS Example 20 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 20</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text</p>
+          <p>梅梅想看看游戏室是什么样子，就擦掉眼泪。</p>
+        </div>
+        <div class="column has-text-right">
+          <p class="audio-label">Reference speech (ground truth)</p>
+          <audio controls preload="none">
+            <source src="audios/tts_examples/gt/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text</p>
+          <p>这不是简单的迷信，也不是简单的儒家伦理。</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
+            <audio controls preload="none">
+              <source src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<!-- LEMAS-Edit audio examples -->
+<section class="section" id="edit-examples">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">LEMAS-Edit: Word-level Speech Editing</h2>
+    <div class="content audio-section-intro has-text-justified">
+      <p>
+        LEMAS-Edit formulates speech editing as masked token infilling over codec tokens, powered by the word-level timestamps
+        in LEMAS-Dataset. For each example, we modify a specific word or phrase in the original utterance. We show the original
+        recording (ground truth), the edited result from <strong>LEMAS-Edit</strong>, and a re-synthesized version from
+        <strong>LEMAS-TTS</strong>.
+      </p>
+    </div>
+
+    <!-- Edit Example 1 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 1</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【Hessen】/【Bayern】:</span> folgen –: Wann kommen wir denn in 【Hessen】/ 【Bayern】 in die Situation,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/de_ry-I_yedAh4-00449-00140222-00140614.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/de_ry-I_yedAh4-00449-00140222-00140614.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/de_ry-I_yedAh4-00449-00140222-00140614.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 2 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 2</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【griechischen heißt】/【hellenischen heißt】:</span> vom griechischen und im 【griechischen heißt】/ 【hellenischen heißt】 das ganze optischer Regler . Und der steht ganz links,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/de_z_lWiX5LYbI-00008-00006956-00007617.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/de_z_lWiX5LYbI-00008-00006956-00007617.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/de_z_lWiX5LYbI-00008-00006956-00007617.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 3 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 3</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【LITERARY WORK】/【WRITTEN WORK】:</span> THAT I WAS IN FACT UNABLE TO DO ANY 【LITERARY WORK】/ 【WRITTEN WORK】</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/en_AUD0000000214_S0001522.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/en_AUD0000000214_S0001522.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/en_AUD0000000214_S0001522.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 4 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 4</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【QUOTATION MARKS】/【INVERTED COMMAS】:</span> IF YOU USE 【QUOTATION MARKS】/ 【INVERTED COMMAS】 AROUND THE EXPRESSION THAT YOU WANT TO SEE IT WILL GIVE YOU EXACT MATCHES FOR THAT EXPRESSION</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/en_YOU0000001317_S0000011.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/en_YOU0000001317_S0000011.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/en_YOU0000001317_S0000011.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 5 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 5</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【COUGAR】/【PANTHER】:</span> WHILE THERE ARE SEVERAL MODELS OF THE 【COUGAR】/ 【PANTHER】 MINE RESISTANT AMBUSH PROTECTED MRAP VEHICLE THE SIX BY SIX VARIANT WITH AN AUTOMATIC GRENADE LAUNCHER</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/en_YOU1000000173_S0000098.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/en_YOU1000000173_S0000098.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/en_YOU1000000173_S0000098.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 6 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 6</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【mujer】/【señora】:</span> 【mujer】/ 【señora】 por la que ha dejado a ésta ese hombre?», y sentía, ¿por qué no he de confesarle la verdad?,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/es_39sUNIQS27U-00053-00032388-00033054.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/es_39sUNIQS27U-00053-00032388-00033054.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/es_39sUNIQS27U-00053-00032388-00033054.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 7 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 7</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【visión】/【perspectiva】:</span> Es una 【visión】/ 【perspectiva】 muy triste porque nos define y sienta nuestro destino no?</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/es_A7Ftr5PrvdY-00120-00052329-00052955.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 8 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 8</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【vídeo】/【grabación】:</span> para grabar un 【vídeo】/ 【grabación】 sobre qué opina la gente de los informáticos?</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/es_p3JZGFyD1q4-00001-00000450-00001068.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/es_p3JZGFyD1q4-00001-00000450-00001068.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/es_p3JZGFyD1q4-00001-00000450-00001068.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 9 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 9</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【Sciences Humaines et Sociales】/【Sciences sociales】:</span> Vous avez publié en 【Sciences Humaines et Sociales】/ 【Sciences sociales】 ? Le délai est alors de douze mois.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/fr_58M3QvaxFFM-00010-00007162-00007648.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/fr_58M3QvaxFFM-00010-00007162-00007648.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/fr_58M3QvaxFFM-00010-00007162-00007648.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 10 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 10</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【chlorophylle】/【pigment vert】:</span> publiés en collaboration avec cette vidéo pour tout savoir sur la 【chlorophylle】/ 【pigment vert】 : sa vie, son oeuvre...</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/fr_Paqqb-OkMmA-00060-00025766-00026389.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 11 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 11</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【câbles】/【fils】:</span> On estime que 95% du trafic Internet mondial se fait par ces 【câbles】/ 【fils】 de télécommunication posés au fond des océans.</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/fr_RUTidfuQzBw_0019.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/fr_RUTidfuQzBw_0019.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/fr_RUTidfuQzBw_0019.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 12 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 12</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【passaporti】/【documenti di viaggio】:</span> tempi difficili e preoccupanti". La prevista introduzione a livello mondiale di 【passaporti】/ 【documenti di viaggio】</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/it_3lx6y-fUnyc-00002-00001129-00001732.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/it_3lx6y-fUnyc-00002-00001129-00001732.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/it_3lx6y-fUnyc-00002-00001129-00001732.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 13 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 13</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【etichetta】/【marchio】:</span> Non intesa come “【etichetta】/ 【marchio】 diagnostica nosografica”, ma come processo di conoscenza</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/it_6Tz43e7PlX0-00034-00019174-00019660.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/it_6Tz43e7PlX0-00034-00019174-00019660.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/it_6Tz43e7PlX0-00034-00019174-00019660.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 14 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 14</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【Scary Movie】/【parody film】:</span> È una specie di via di mezzo fra 【Scary Movie】/ 【parody film】 e la Evil Overlord List,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/it_szkmi570-lu-00031-00019642-00020368.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/it_szkmi570-lu-00031-00019642-00020368.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/it_szkmi570-lu-00031-00019642-00020368.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 15 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 15</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【Cartões MBNet】/【Cartões virtuais】:</span> Na opção "【Cartões MBNet】/ 【Cartões virtuais】", podemos ver o "Histórico" dos cartões gerados,</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/pt_4jD-2FN5T88-00020-00009956-00010488.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/pt_4jD-2FN5T88-00020-00009956-00010488.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/pt_4jD-2FN5T88-00020-00009956-00010488.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 16 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 16</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【os vossos】/【teus】:</span> elevados do que 【os vossos】/ 【teus】, então eu comecei a perceber como</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/pt_h_EjrAP1xA8-00039-00027955-00028582.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 17 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 17</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【Família da fonte】/【Tipo de letra】:</span> as palavras: “【Família da fonte】/ 【Tipo de letra】”. Vamos clicar nele e selecionarmos a fonte</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/pt_wrSQ5ZZl9pI-00016-00009856-00010404.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 18 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 18</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【道士】/【和尚】:</span> 【道士】/ 【和尚】也没有再闹了，乖乖的就跟人进去擦药水去了。</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/zh_emilia_zh_0008046522.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008046522.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008046522.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 19 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 19</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【南方】/【北方】:</span> 又出使【南方】/ 【北方】的闽东岳等族，希望他们紧随其后，作为支援。</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/zh_emilia_zh_0008385782.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008385782.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008385782.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Example 20 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 20</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p><span class="audio-label">【夏子涵】/【刘亦菲】:</span> 还说了自己去公司看见【夏子涵】/ 【刘亦菲】给方程送药的事情，方程也生气了。</p>
+        </div>
+        <div class="column has-text-right audio-player-group">
+          <div>
+            <span class="method-tag">Original speech (ground truth)</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/gt/zh_emilia_zh_0010428708.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-Edit</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0010428708.wav" type="audio/mpeg">
+            </audio>
+          </div>
+          <div>
+            <span class="method-tag">LEMAS-TTS</span><br>
+            <audio controls preload="none">
+              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0010428708.wav" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Citation -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Citation</h2>
+    <div class="bibtex-section">
+      <pre><code>@article{zhao2025lemas,
+  title={LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models},
+  author={Zhao, Zhiyuan and Lin, Lijian and Zhu, Ye and Xie, Kai and Liu, Yunfei and Li, Yu},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2025}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
