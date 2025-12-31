@@ -19,7 +19,7 @@
     .button.is-dark { background-color: #363636; border-color: transparent; color: #fff; }
     .button.is-dark:hover { background-color: #292929; }
     .icon { margin-right: 5px; }
-    .teaser-img { width: 100%; max-width: 900px; margin: 0 auto; display: block; }
+    .teaser-img { width: 100%; max-width: 100%; margin: 0 auto; display: block; }
     .abstract-text { font-size: 1.1rem; line-height: 1.6; }
     .bibtex-section { background-color: #f5f5f5; padding: 20px; border-radius: 10px; overflow-x: auto; }
     pre { background-color: transparent; padding: 0; }
@@ -32,6 +32,51 @@
     .audio-player-group > div { text-align: center; }
     .audio-player-group audio { width: 200px; max-width: 100%; margin-bottom: 0.25rem; }
     .method-tag { font-size: 0.8rem; margin-bottom: 0.2rem; display: inline-block; }
+
+    /* Edit-style audio controls inspired by speech_demos */
+    .edit-audio-controls { display: flex; flex-wrap: wrap; gap: 16px; justify-content: flex-end; }
+    /* TTS-style controls: grid so reference aligns above middle method */
+    .tts-audio-controls {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      justify-content: center;
+      column-gap: 16px;
+    }
+    .tts-audio-controls .audio-control:only-child {
+      grid-column: 2; /* place single reference button above the middle target button */
+    }
+    .audio-control { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .edit-audio-label { font-size: 0.8rem; color: #666666; margin-bottom: 0.25rem; }
+    .edit-lang-tag {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-right: 0.35rem;
+    }
+    .audio-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: rgba(50, 115, 220, 0.12);
+      color: #3273dc;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .audio-button:hover,
+    .audio-button:focus-visible { transform: translateY(-1px); }
+    .audio-button.is-playing {
+      background: #3273dc;
+      color: #ffffff;
+      box-shadow: 0 8px 16px rgba(50, 115, 220, 0.3);
+    }
+    .audio-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      background: rgba(50, 115, 220, 0.08);
+    }
+    .audio-hidden { display: none; }
   </style>
 </head>
 <body>
@@ -99,7 +144,7 @@
 
 <!-- Teaser -->
 <section class="section">
-  <div class="container is-max-widescreen">
+  <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-full">
         <img src="doc/teaser.png"
@@ -115,22 +160,11 @@
 <section class="section">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
+      <div class="column is-full">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified abstract-text">
           <p>
-            The development of generative speech models is increasingly constrained by the trade-off between data scale and quality.
-            While recent large-scale web-crawled corpora provide abundant audio, they often lack reliable quality and fine-grained annotations.
-          </p>
-          <p>
-            To address this bottleneck, we present the <strong>LEMAS-Dataset</strong>, which constitutes <strong>150,000+ hours</strong> of multilingual speech
-            across 10 major languages, equipped with rigorous word-level timestamps. Constructed via a robust pipeline integrating
-            <strong>Uroman-based normalization</strong> and <strong>MMS forced alignment</strong>, LEMAS ensures high temporal precision even for in-the-wild recordings.
-          </p>
-          <p>
-            We further validate the dataset through two foundation models: <strong>LEMAS-TTS</strong> (a flow-matching model for zero-shot synthesis)
-            and <strong>LEMAS-Edit</strong> (a codec-based model for precise speech editing), demonstrating that high-quality alignment is key
-            to next-generation speech generation.
+            We present the LEMAS-Dataset, which, to our knowledge, is currently the largest open-source multilingual speech corpus with word-level timestamps. Covering over 150,000 hours across 10 major languages, LEMAS-Dataset is constructed via a efficient data processing pipeline that ensures high-quality data and annotations. Unlike simple web-crawled collections, our pipeline integrates rigorous forced alignment and a dynamic confidence-based filtering mechanism to exclude samples with unreliable boundaries, thereby guaranteeing temporal alignment accuracy. To validate the effectiveness of LEMAS-Dataset across diverse generative paradigms, we train two benchmark models with distinct architectures and task specializations on this dataset. LEMAS-TTS, built upon a non-autoregressive flow-matching framework, leverages the dataset's massive scale and linguistic diversity to achieve robust zero-shot multilingual synthesis. Our proposed accent-adversarial training and CTC loss mitigate cross-lingual accent issues, enhancing synthesis stability. Complementarily, LEMAS-Edit employs an autoregressive decoder-only architecture that formulates speech editing as a masked token infilling task. By exploiting precise word-level alignments to construct training masks and adopting adaptive decoding strategies, it achieves seamless, smooth-boundary speech editing with natural transitions. Experimental results demonstrate that models trained on LEMAS-Dataset deliver high-quality synthesis and editing performance, confirming the dataset's quality. We envision that this richly timestamp-annotated, fine-grained multilingual corpus will drive future advances in prompt-based speech generation systems.
           </p>
         </div>
       </div>
@@ -170,6 +204,27 @@
               <td>Multi-domain</td>
             </tr>
             <tr>
+              <td>GigaSpeech 2</td>
+              <td>28k</td>
+              <td>3</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>Multi-domain</td>
+            </tr>
+            <tr>
+              <td>WenetSpeech</td>
+              <td>22k</td>
+              <td>1</td>
+              <td><i class="fas fa-times has-text-danger"></i></td>
+              <td>Multi-domain</td>
+            </tr>
+            <tr>
+              <td>WenetSpeech4TTS</td>
+              <td>13k</td>
+              <td>1</td>
+              <td><i class="fas fa-check has-text-success"></i></td>
+              <td>Multi-domain</td>
+            </tr>
+            <tr>
               <td>MLS</td>
               <td>51k</td>
               <td>8</td>
@@ -181,7 +236,7 @@
               <td>101k</td>
               <td>6</td>
               <td><i class="fas fa-times has-text-danger"></i></td>
-              <td>In-the-wild</td>
+              <td>Multi-domain</td>
             </tr>
             <tr style="background-color: #e8f5e9; font-weight: bold;">
               <td>LEMAS (Ours)</td>
@@ -210,173 +265,184 @@
       </p>
     </div>
 
+
     <!-- TTS Example 1 -->
     <div class="box audio-sample">
       <h3 class="title is-5">Example 1</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>Wir bleiben für immer vereint. Wir gegen den Rest der Welt,</p>
+          <p class="audio-label">Reference text (EN)</p>
+          <p>They were set down at a small group of farmhouses.</p>
+        </div>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren Lichtkörpern öffnen</p>
+          <p class="audio-label">Target text (EN)</p>
+          <p>Location data is also some of our most personal information.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Reference (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/gt/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
 
     <!-- TTS Example 2 -->
     <div class="box audio-sample">
       <h3 class="title is-5">Example 2</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>im Bereich des Netzteiles sogar etwas zu offen, im Hinblick auf die Isolierung der Netzspannung.</p>
+          <p class="audio-label">Reference text (ES)</p>
+          <p>Y podía regalar a los que a su casa llegasen.</p>
+        </div>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>甚至有的人总觉得自己怀才不遇，好像世界上的人都辜负自己，都对不起自己。</p>
+          <p class="audio-label">Target text (EN)</p>
+          <p>City planning economic development and social services together.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Reference (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/gt/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
 
     <!-- TTS Example 3 -->
     <div class="box audio-sample">
       <h3 class="title is-5">Example 3</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>FOR THEY DID NOT SUSPECT HIM TO BE THEIR ENEMY AND HE GAINED IT THUS</p>
+          <p class="audio-label">Reference text (ZH)</p>
+          <p>梅梅想看看游戏室是什么样子，就擦掉眼泪。</p>
+        </div>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren Lichtkörpern öffnen</p>
+          <p class="audio-label">Target text (ZH)</p>
+          <p>这不是简单的迷信，也不是简单的儒家伦理。</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Reference (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/gt/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
+    
     <!-- TTS Example 4 -->
     <div class="box audio-sample">
       <h3 class="title is-5">Example 4</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>THEY WERE SET DOWN AT A SMALL GROUP OF FARMHOUSES</p>
+          <p class="audio-label">Reference text (DE)</p>
+          <p>Im bereich des netzteiles sogar etwas zu offen, im hinblick auf die isolierung der netzspannung.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>LOCATION DATA IS ALSO SOME OF OUR MOST PERSONAL INFORMATION</p>
+          <p class="audio-label">Target text (ZH)</p>
+          <p>甚至有的人总觉得自己怀才不遇，好像世界上的人都辜负自己，都对不起自己。</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000564_S0001656--en_YOU0000014615_S0000021.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/de_5q5MGQCkYCg-00014-00010212-00010832--zh_emilia_zh_0014406001.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -387,39 +453,41 @@
       <h3 class="title is-5">Example 5</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>y podía regalar a los que a su casa llegasen.</p>
+          <p class="audio-label">Reference text (DE)</p>
+          <p>Wir bleiben für immer vereint. wir gegen den rest der welt.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>CITY PLANNING ECONOMIC DEVELOPMENT AND SOCIAL SERVICES TOGETHER</p>
+          <p class="audio-label">Target text (DE)</p>
+          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren lichtkörpern öffnen.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/es_cByIaUPdP7g-00035-00023684-00024022--en_YOU0000013106_S0000533.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/de_4d8KcOyLwhU-00047-00022872-00023236--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -430,39 +498,41 @@
       <h3 class="title is-5">Example 6</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>se ubicaron dentro otras dependencias como La Real Audiencia, la ca rcel y las Cajas Reales.</p>
+          <p class="audio-label">Reference text (EN)</p>
+          <p>For they did not suspect him to be their enemy and he gained it thus.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
+          <p class="audio-label">Target text (DE)</p>
+          <p>Atome, die für uns vorher noch verschlossen waren, nun in unseren lichtkörpern öffnen.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/en_AUD0000000198_S0001350--de_XXBXlAHn5jc-00230-00104998-00105538.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -473,39 +543,41 @@
       <h3 class="title is-5">Example 7</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>cinq étapes pour rédiger votre Règlement intérieur!</p>
+          <p class="audio-label">Reference text (ES)</p>
+          <p>Se ubicaron dentro otras dependencias como la real audiencia, la ca rcel y las cajas reales.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
+          <p class="audio-label">Target text (ES)</p>
+          <p>Es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/es_DUOCoVB5Pn4-00010-00005256-00005868--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -516,39 +588,41 @@
       <h3 class="title is-5">Example 8</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>s il dit après je suis désolé vous pouvez faire confiance à son je suis désolé.</p>
+          <p class="audio-label">Reference text (FR)</p>
+          <p>Cinq étapes pour rédiger votre règlement intérieur!</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>mourir dans la nature? Parce qu avant de mourir, ils ont le temps de se reproduire!</p>
+          <p class="audio-label">Target text (ES)</p>
+          <p>Es fundamental llevarla a cabocon el esfuerzo de todos y todas.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/fr_AhP29aK1iuQ-00000-00000124-00000462--es_khK9jZSq0vE-00032-00020568-00020972.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -559,39 +633,41 @@
       <h3 class="title is-5">Example 9</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>yang beriman di antara kalian beriman di antara kalian</p>
+          <p class="audio-label">Reference text (FR)</p>
+          <p>S il dit après je suis désolé vous pouvez faire confiance à son je suis désolé.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>cinq étapes pour rédiger votre Règlement intérieur!</p>
+          <p class="audio-label">Target text (FR)</p>
+          <p>Mourir dans la nature? parce qu avant de mourir, ils ont le temps de se reproduire!</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/fr__xj_NRpdqv4-00001-00000847-00001339--fr_iwApan4dw9o-00201-00086659-00087158.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -602,39 +678,41 @@
       <h3 class="title is-5">Example 10</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>tanggal dan bulan saya tidak bisa dapat yang tau bisa berbagi informasi di kolom komentar</p>
+          <p class="audio-label">Reference text (ID)</p>
+          <p>Yang beriman di antara kalian beriman di antara kalian.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>yang ke tiga, kemudian rukuk dan memanjangkan rukuknya</p>
+          <p class="audio-label">Target text (FR)</p>
+          <p>Cinq étapes pour rédiger votre règlement intérieur!</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/id_R0M5JGubPYg-00267-00229817-00230526--fr_AhP29aK1iuQ-00000-00000124-00000462.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -645,39 +723,41 @@
       <h3 class="title is-5">Example 11</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>condizioni, in determinate situazioni e dovremmo riconoscere solo determinati diritti.</p>
+          <p class="audio-label">Reference text (ID)</p>
+          <p>Tanggal dan bulan saya tidak bisa dapat yang tau bisa berbagi informasi di kolom komentar.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>dari para perampok tersebut beruntung anaknya selamat meskipun mengalami luka tembak di bagian</p>
+          <p class="audio-label">Target text (ID)</p>
+          <p>Yang ke tiga, kemudian rukuk dan memanjangkan rukuknya.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/id_Tn7A5a2yV_8-00086-00048759-00049366--id_f6T_qbZFUlM-00021-00031180-00031620.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -688,39 +768,41 @@
       <h3 class="title is-5">Example 12</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>sarebbero stati studiati i metodi di cura del Dottore dei miracoli.</p>
+          <p class="audio-label">Reference text (IT)</p>
+          <p>Condizioni, in determinate situazioni e dovremmo riconoscere solo determinati diritti.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>e quello era Come NON EFFETTUARE una chiamata di emergenza.</p>
+          <p class="audio-label">Target text (ID)</p>
+          <p>Dari para perampok tersebut beruntung anaknya selamat meskipun mengalami luka tembak di bagian.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/it_ad04xbymvku-00033-00019084-00019662--id_QTgAZolznjU-00007-00004200-00004728.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -731,39 +813,41 @@
       <h3 class="title is-5">Example 13</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>e as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
+          <p class="audio-label">Reference text (IT)</p>
+          <p>Sarebbero stati studiati i metodi di cura del dottore dei miracoli.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>No, non l ascoltavo e le dissi, Non venire qui con questa roba.</p>
+          <p class="audio-label">Target text (IT)</p>
+          <p>E quello era come non effettuare una chiamata di emergenza.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/it_lNUVixAHHgy-00289-00125759-00126204--it_NooLzZLapRk-00007-00004832-00005230.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -774,39 +858,41 @@
       <h3 class="title is-5">Example 14</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>Outra coisa que também podemos dizer sobre as terminações é que podem ser chamadas de sufixo.</p>
+          <p class="audio-label">Reference text (PT)</p>
+          <p>E as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>e as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
+          <p class="audio-label">Target text (IT)</p>
+          <p>No, non l ascoltavo e le dissi, non venire qui con questa roba.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/pt_ANIBBQy3Ys8-00050-00016773-00017320--it_PH929U8L_D0-00043-00023030-00023474.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -817,39 +903,41 @@
       <h3 class="title is-5">Example 15</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>но я не могу сделать то, о чем вы просите.</p>
+          <p class="audio-label">Reference text (PT)</p>
+          <p>Outra coisa que também podemos dizer sobre as terminações é que podem ser chamadas de sufixo.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>того, кто ниже ума, мы называем будду, дурачок.</p>
+          <p class="audio-label">Target text (PT)</p>
+          <p>E as práticas feministas em âmbitos acadêmicos, artísticos e sociais.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/pt_Yt13sZeM30g-00038-00016200-00016932--pt_ANIBBQy3Ys8-00050-00016773-00017320.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -860,39 +948,41 @@
       <h3 class="title is-5">Example 16</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>приветствую вас на канале вкусные рецепты.</p>
+          <p class="audio-label">Reference text (RU)</p>
+          <p>Но я не могу сделать то, о чем вы просите.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>e não são estas aquelas mesmas águas..</p>
+          <p class="audio-label">Target text (RU)</p>
+          <p>Того, кто ниже ума, мы называем будду, дурачок.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -903,39 +993,41 @@
       <h3 class="title is-5">Example 17</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>bàn ăn với mười hai môn đệ và khi các ông đang</p>
+          <p class="audio-label">Reference text (RU)</p>
+          <p>Приветствую вас на канале вкусные рецепты.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>và bì trộn, với cơm tấm. thế là mình có món, cơm tấm bì cho ngày hôm sau.</p>
+          <p class="audio-label">Target text (PT)</p>
+          <p>E não são estas aquelas mesmas águas.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/ru_zi6RULu96Vy-00001-00000259-00000600--pt_VcwRZ9CPKdQ-00016-00007294-00007601.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -946,39 +1038,41 @@
       <h3 class="title is-5">Example 18</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>bởi vì gu ti vi và bên đại lý không tìm</p>
+          <p class="audio-label">Reference text (VI)</p>
+          <p>Bàn ăn với mười hai môn đệ và khi các ông đang.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>приветствую вас на канале вкусные рецепты.</p>
+          <p class="audio-label">Target text (VI)</p>
+          <p>Và bì trộn, với cơm tấm. thế là mình có món, cơm tấm bì cho ngày hôm sau.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -989,39 +1083,41 @@
       <h3 class="title is-5">Example 19</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>直到最近，我们需要的大部分东西都是手工制作的。</p>
+          <p class="audio-label">Reference text (VI)</p>
+          <p>Bởi vì gu ti vi và bên đại lý không tìm.</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>sau này thiên hạ sẽ quy về dòng họ tư mã. đám trẻ sau khi nghe tin tức này đều sợ hãi,</p>
+          <p class="audio-label">Target text (RU)</p>
+          <p>Приветствую вас на канале вкусные рецепты.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1032,39 +1128,41 @@
       <h3 class="title is-5">Example 20</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text</p>
-          <p>梅梅想看看游戏室是什么样子，就擦掉眼泪。</p>
+          <p class="audio-label">Reference text (ZH)</p>
+          <p>直到最近，我们需要的大部分东西都是手工制作的。</p>
         </div>
         <div class="column has-text-right">
-          <p class="audio-label">Reference speech (ground truth)</p>
-          <audio controls preload="none">
-            <source src="audios/tts_examples/gt/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.mp3" type="audio/mpeg">
-          </audio>
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.mp3" preload="none"></audio>
+            </div>
+          </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text</p>
-          <p>这不是简单的迷信，也不是简单的儒家伦理。</p>
+          <p class="audio-label">Target text (VI)</p>
+          <p>Sau này thiên hạ sẽ quy về dòng họ tư mã. đám trẻ sau khi nghe tin tức này đều sợ hãi.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Baseline: OpenAudio-S1-mini</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS + Prosody Encoder</span><br>
-            <audio controls preload="none">
-              <source src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0004342372--zh_emilia_zh_0002370041.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/zh_emilia_zh_0000143834--vi_hB0dVV9N034-00043-00028425-00029172.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1089,26 +1187,25 @@
       <h3 class="title is-5">Example 1</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【Hessen】/【Bayern】:</span> folgen –: Wann kommen wir denn in 【Hessen】/ 【Bayern】 in die Situation,</p>
+          <p><span class="edit-lang-tag">DE</span>: Folgen: wann kommen wir denn in 【hessen】/ 【bayern】 in die situation.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/de_ry-I_yedAh4-00449-00140222-00140614.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/de_ry-I_yedAh4-00449-00140222-00140614.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/de_ry-I_yedAh4-00449-00140222-00140614.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/de_ry-I_yedAh4-00449-00140222-00140614.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/de_ry-I_yedAh4-00449-00140222-00140614.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/de_ry-I_yedAh4-00449-00140222-00140614.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1119,26 +1216,25 @@
       <h3 class="title is-5">Example 2</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【griechischen heißt】/【hellenischen heißt】:</span> vom griechischen und im 【griechischen heißt】/ 【hellenischen heißt】 das ganze optischer Regler . Und der steht ganz links,</p>
+          <p><span class="edit-lang-tag">DE</span>: Vom griechischen und im 【griechischen heißt】/ 【hellenischen heißt】 das ganze optischer regler. und der steht ganz links,</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/de_z_lWiX5LYbI-00008-00006956-00007617.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/de_z_lWiX5LYbI-00008-00006956-00007617.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/de_z_lWiX5LYbI-00008-00006956-00007617.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/de_z_lWiX5LYbI-00008-00006956-00007617.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/de_z_lWiX5LYbI-00008-00006956-00007617.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/de_z_lWiX5LYbI-00008-00006956-00007617.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1149,26 +1245,25 @@
       <h3 class="title is-5">Example 3</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【LITERARY WORK】/【WRITTEN WORK】:</span> THAT I WAS IN FACT UNABLE TO DO ANY 【LITERARY WORK】/ 【WRITTEN WORK】</p>
+          <p><span class="edit-lang-tag">EN</span>: That i was in fact unable to do any 【literary work】/ 【written work】</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/en_AUD0000000214_S0001522.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/en_AUD0000000214_S0001522.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/en_AUD0000000214_S0001522.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/en_AUD0000000214_S0001522.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/en_AUD0000000214_S0001522.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/en_AUD0000000214_S0001522.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1179,26 +1274,25 @@
       <h3 class="title is-5">Example 4</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【QUOTATION MARKS】/【INVERTED COMMAS】:</span> IF YOU USE 【QUOTATION MARKS】/ 【INVERTED COMMAS】 AROUND THE EXPRESSION THAT YOU WANT TO SEE IT WILL GIVE YOU EXACT MATCHES FOR THAT EXPRESSION</p>
+          <p><span class="edit-lang-tag">EN</span>: If you use 【quotation marks】/ 【inverted commas】 around the expression that you want to see it will give you exact matches for that expression</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/en_YOU0000001317_S0000011.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/en_YOU0000001317_S0000011.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/en_YOU0000001317_S0000011.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/en_YOU0000001317_S0000011.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/en_YOU0000001317_S0000011.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/en_YOU0000001317_S0000011.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1209,26 +1303,25 @@
       <h3 class="title is-5">Example 5</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【COUGAR】/【PANTHER】:</span> WHILE THERE ARE SEVERAL MODELS OF THE 【COUGAR】/ 【PANTHER】 MINE RESISTANT AMBUSH PROTECTED MRAP VEHICLE THE SIX BY SIX VARIANT WITH AN AUTOMATIC GRENADE LAUNCHER</p>
+          <p><span class="edit-lang-tag">EN</span>: While there are several models of the 【cougar】/ 【panther】 mine resistant ambush protected mrap vehicle the six by six variant with an automatic grenade launcher</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/en_YOU1000000173_S0000098.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/en_YOU1000000173_S0000098.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/en_YOU1000000173_S0000098.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/en_YOU1000000173_S0000098.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/en_YOU1000000173_S0000098.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/en_YOU1000000173_S0000098.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1239,26 +1332,25 @@
       <h3 class="title is-5">Example 6</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【mujer】/【señora】:</span> 【mujer】/ 【señora】 por la que ha dejado a ésta ese hombre?», y sentía, ¿por qué no he de confesarle la verdad?,</p>
+          <p><span class="edit-lang-tag">ES</span>: 【Mujer】/ 【señora】 por la que ha dejado a ésta ese hombre?», y sentía, ¿por qué no he de confesarle la verdad?</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/es_39sUNIQS27U-00053-00032388-00033054.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/es_39sUNIQS27U-00053-00032388-00033054.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/es_39sUNIQS27U-00053-00032388-00033054.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/es_39sUNIQS27U-00053-00032388-00033054.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/es_39sUNIQS27U-00053-00032388-00033054.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/es_39sUNIQS27U-00053-00032388-00033054.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1269,26 +1361,25 @@
       <h3 class="title is-5">Example 7</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【visión】/【perspectiva】:</span> Es una 【visión】/ 【perspectiva】 muy triste porque nos define y sienta nuestro destino no?</p>
+          <p><span class="edit-lang-tag">ES</span>: Es una 【visión】/ 【perspectiva】 muy triste porque nos define y sienta nuestro destino no?</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/es_A7Ftr5PrvdY-00120-00052329-00052955.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/es_A7Ftr5PrvdY-00120-00052329-00052955.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/es_A7Ftr5PrvdY-00120-00052329-00052955.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1299,26 +1390,25 @@
       <h3 class="title is-5">Example 8</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【vídeo】/【grabación】:</span> para grabar un 【vídeo】/ 【grabación】 sobre qué opina la gente de los informáticos?</p>
+          <p><span class="edit-lang-tag">ES</span>: Para grabar un 【vídeo】/ 【grabación】 sobre qué opina la gente de los informáticos?</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/es_p3JZGFyD1q4-00001-00000450-00001068.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/es_p3JZGFyD1q4-00001-00000450-00001068.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/es_p3JZGFyD1q4-00001-00000450-00001068.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/es_p3JZGFyD1q4-00001-00000450-00001068.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/es_p3JZGFyD1q4-00001-00000450-00001068.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/es_p3JZGFyD1q4-00001-00000450-00001068.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1329,26 +1419,25 @@
       <h3 class="title is-5">Example 9</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【Sciences Humaines et Sociales】/【Sciences sociales】:</span> Vous avez publié en 【Sciences Humaines et Sociales】/ 【Sciences sociales】 ? Le délai est alors de douze mois.</p>
+          <p><span class="edit-lang-tag">FR</span>: Vous avez publié en 【sciences humaines et sociales】/ 【sciences sociales】 ? le délai est alors de douze mois.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/fr_58M3QvaxFFM-00010-00007162-00007648.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/fr_58M3QvaxFFM-00010-00007162-00007648.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/fr_58M3QvaxFFM-00010-00007162-00007648.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/fr_58M3QvaxFFM-00010-00007162-00007648.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/fr_58M3QvaxFFM-00010-00007162-00007648.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/fr_58M3QvaxFFM-00010-00007162-00007648.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1359,26 +1448,25 @@
       <h3 class="title is-5">Example 10</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【chlorophylle】/【pigment vert】:</span> publiés en collaboration avec cette vidéo pour tout savoir sur la 【chlorophylle】/ 【pigment vert】 : sa vie, son oeuvre...</p>
+          <p><span class="edit-lang-tag">FR</span>: Publiés en collaboration avec cette vidéo pour tout savoir sur la 【chlorophylle】/ 【pigment vert】: sa vie, son oeuvre...</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/fr_Paqqb-OkMmA-00060-00025766-00026389.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/fr_Paqqb-OkMmA-00060-00025766-00026389.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/fr_Paqqb-OkMmA-00060-00025766-00026389.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1389,26 +1477,25 @@
       <h3 class="title is-5">Example 11</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【câbles】/【fils】:</span> On estime que 95% du trafic Internet mondial se fait par ces 【câbles】/ 【fils】 de télécommunication posés au fond des océans.</p>
+          <p><span class="edit-lang-tag">FR</span>: On estime que 95% du trafic internet mondial se fait par ces 【câbles】/ 【fils】 de télécommunication posés au fond des océans.</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/fr_RUTidfuQzBw_0019.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/fr_RUTidfuQzBw_0019.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/fr_RUTidfuQzBw_0019.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/fr_RUTidfuQzBw_0019.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/fr_RUTidfuQzBw_0019.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/fr_RUTidfuQzBw_0019.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1419,26 +1506,25 @@
       <h3 class="title is-5">Example 12</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【passaporti】/【documenti di viaggio】:</span> tempi difficili e preoccupanti". La prevista introduzione a livello mondiale di 【passaporti】/ 【documenti di viaggio】</p>
+          <p><span class="edit-lang-tag">IT</span>: Tempi difficili e preoccupanti. la prevista introduzione a livello mondiale di 【passaporti】/ 【documenti di viaggio】</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/it_3lx6y-fUnyc-00002-00001129-00001732.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/it_3lx6y-fUnyc-00002-00001129-00001732.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/it_3lx6y-fUnyc-00002-00001129-00001732.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/it_3lx6y-fUnyc-00002-00001129-00001732.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/it_3lx6y-fUnyc-00002-00001129-00001732.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/it_3lx6y-fUnyc-00002-00001129-00001732.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1449,26 +1535,25 @@
       <h3 class="title is-5">Example 13</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【etichetta】/【marchio】:</span> Non intesa come “【etichetta】/ 【marchio】 diagnostica nosografica”, ma come processo di conoscenza</p>
+          <p><span class="edit-lang-tag">IT</span>: Non intesa come【etichetta】/【marchio】diagnostica nosografica, ma come processo di conoscenza</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/it_6Tz43e7PlX0-00034-00019174-00019660.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/it_6Tz43e7PlX0-00034-00019174-00019660.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/it_6Tz43e7PlX0-00034-00019174-00019660.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/it_6Tz43e7PlX0-00034-00019174-00019660.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/it_6Tz43e7PlX0-00034-00019174-00019660.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/it_6Tz43e7PlX0-00034-00019174-00019660.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1479,26 +1564,25 @@
       <h3 class="title is-5">Example 14</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【Scary Movie】/【parody film】:</span> È una specie di via di mezzo fra 【Scary Movie】/ 【parody film】 e la Evil Overlord List,</p>
+          <p><span class="edit-lang-tag">IT</span>: È una specie di via di mezzo fra 【scary movie】/【parody film】 e la evil overlord list,</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/it_szkmi570-lu-00031-00019642-00020368.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/it_szkmi570-lu-00031-00019642-00020368.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/it_szkmi570-lu-00031-00019642-00020368.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/it_szkmi570-lu-00031-00019642-00020368.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/it_szkmi570-lu-00031-00019642-00020368.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/it_szkmi570-lu-00031-00019642-00020368.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1509,26 +1593,25 @@
       <h3 class="title is-5">Example 15</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【Cartões MBNet】/【Cartões virtuais】:</span> Na opção "【Cartões MBNet】/ 【Cartões virtuais】", podemos ver o "Histórico" dos cartões gerados,</p>
+          <p><span class="edit-lang-tag">PT</span>: Na opção【cartões mbnet】/【cartões virtuais】, podemos ver o "histórico" dos cartões gerados,</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/pt_4jD-2FN5T88-00020-00009956-00010488.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/pt_4jD-2FN5T88-00020-00009956-00010488.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/pt_4jD-2FN5T88-00020-00009956-00010488.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/pt_4jD-2FN5T88-00020-00009956-00010488.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/pt_4jD-2FN5T88-00020-00009956-00010488.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/pt_4jD-2FN5T88-00020-00009956-00010488.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1539,26 +1622,25 @@
       <h3 class="title is-5">Example 16</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【os vossos】/【teus】:</span> elevados do que 【os vossos】/ 【teus】, então eu comecei a perceber como</p>
+          <p><span class="edit-lang-tag">PT</span>: Elevados do que【os vossos】/【teus】, então eu comecei a perceber como</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/pt_h_EjrAP1xA8-00039-00027955-00028582.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/pt_h_EjrAP1xA8-00039-00027955-00028582.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/pt_h_EjrAP1xA8-00039-00027955-00028582.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1569,26 +1651,25 @@
       <h3 class="title is-5">Example 17</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【Família da fonte】/【Tipo de letra】:</span> as palavras: “【Família da fonte】/ 【Tipo de letra】”. Vamos clicar nele e selecionarmos a fonte</p>
+          <p><span class="edit-lang-tag">PT</span>: As palavras:【família da fonte】/【tipo de letra】. vamos clicar nele e selecionarmos a fonte</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/pt_wrSQ5ZZl9pI-00016-00009856-00010404.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/pt_wrSQ5ZZl9pI-00016-00009856-00010404.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/pt_wrSQ5ZZl9pI-00016-00009856-00010404.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1599,26 +1680,25 @@
       <h3 class="title is-5">Example 18</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【道士】/【和尚】:</span> 【道士】/ 【和尚】也没有再闹了，乖乖的就跟人进去擦药水去了。</p>
+          <p><span class="edit-lang-tag">ZH</span>: 【道士】/【和尚】也没有再闹了，乖乖的就跟人进去擦药水去了。</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/zh_emilia_zh_0008046522.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008046522.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008046522.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/zh_emilia_zh_0008046522.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008046522.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008046522.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1629,26 +1709,25 @@
       <h3 class="title is-5">Example 19</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【南方】/【北方】:</span> 又出使【南方】/ 【北方】的闽东岳等族，希望他们紧随其后，作为支援。</p>
+          <p><span class="edit-lang-tag">ZH</span>: 又出使【南方】/【北方】的闽东岳等族，希望他们紧随其后，作为支援。</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/zh_emilia_zh_0008385782.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008385782.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008385782.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/zh_emilia_zh_0008385782.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/zh_emilia_zh_0008385782.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/zh_emilia_zh_0008385782.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1659,26 +1738,25 @@
       <h3 class="title is-5">Example 20</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p><span class="audio-label">【夏子涵】/【刘亦菲】:</span> 还说了自己去公司看见【夏子涵】/ 【刘亦菲】给方程送药的事情，方程也生气了。</p>
+          <p><span class="edit-lang-tag">ZH</span>: 还说了自己去公司看见【夏子涵】/【刘亦菲】给方程送药的事情，方程也生气了。</p>
         </div>
-        <div class="column has-text-right audio-player-group">
-          <div>
-            <span class="method-tag">Original speech (ground truth)</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/gt/zh_emilia_zh_0010428708.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-Edit</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-edit/zh_emilia_zh_0010428708.wav" type="audio/mpeg">
-            </audio>
-          </div>
-          <div>
-            <span class="method-tag">LEMAS-TTS</span><br>
-            <audio controls preload="none">
-              <source src="audios/edit_examples/lemas-tts/zh_emilia_zh_0010428708.wav" type="audio/mpeg">
-            </audio>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Original</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/gt/zh_emilia_zh_0010428708.mp3" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-Edit</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-edit/zh_emilia_zh_0010428708.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/edit_examples/lemas-tts/zh_emilia_zh_0010428708.wav" preload="none"></audio>
+            </div>
           </div>
         </div>
       </div>
@@ -1687,7 +1765,7 @@
   </div>
 </section>
 
-<!-- Citation -->
+<!-- Citation -->   <!-- journal={arXiv preprint arXiv:XXXX.XXXXX}, -->
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Citation</h2>
@@ -1695,7 +1773,6 @@
       <pre><code>@article{zhao2025lemas,
   title={LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models},
   author={Zhao, Zhiyuan and Lin, Lijian and Zhu, Ye and Xie, Kai and Liu, Yunfei and Li, Yu},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
   year={2025}
 }</code></pre>
     </div>
@@ -1708,6 +1785,57 @@
     </div>
   </div>
 </footer>
+
+<script>
+// Simple shared audio controller for edit-style buttons (inspired by speech_demos)
+document.addEventListener("DOMContentLoaded", function () {
+  var buttons = document.querySelectorAll(".audio-control .audio-button");
+  var activeAudio = null;
+  var activeButton = null;
+
+  buttons.forEach(function (button) {
+    var container = button.closest(".audio-control");
+    if (!container) return;
+    var audio = container.querySelector("audio.audio-hidden");
+    if (!audio) {
+      button.disabled = true;
+      return;
+    }
+
+    button.addEventListener("click", function () {
+      if (activeAudio && activeAudio !== audio) {
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+        if (activeButton) activeButton.classList.remove("is-playing");
+        activeAudio = null;
+        activeButton = null;
+      }
+
+      if (audio.paused || audio.ended) {
+        audio.play();
+        activeAudio = audio;
+        activeButton = button;
+        button.classList.add("is-playing");
+      } else {
+        audio.pause();
+        audio.currentTime = 0;
+        button.classList.remove("is-playing");
+        activeAudio = null;
+        activeButton = null;
+      }
+    });
+
+    audio.addEventListener("ended", function () {
+      button.classList.remove("is-playing");
+      if (activeAudio === audio) {
+        activeAudio = null;
+        activeButton = null;
+      }
+      audio.currentTime = 0;
+    });
+  });
+});
+</script>
 
 </body>
 </html>
