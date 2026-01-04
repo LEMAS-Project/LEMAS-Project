@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models">
+        content="LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Suite with Generative Speech Models">
   <meta name="keywords" content="LEMAS, Speech Synthesis, TTS, Speech Editing, Dataset, Multilingual">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LEMAS Project Page</title>
@@ -88,7 +88,7 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">
-            LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Dataset with Generative Speech Models
+            LEMAS: A 150K-Hour Large-scale Extensible Multilingual Audio Suite with Generative Speech Models
           </h1>
 
           <div class="is-size-5 publication-authors">
@@ -164,7 +164,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified abstract-text">
           <p>
-            We present the LEMAS-Dataset, which, to our knowledge, is currently the largest open-source multilingual speech corpus with word-level timestamps. Covering over 150,000 hours across 10 major languages, LEMAS-Dataset is constructed via a efficient data processing pipeline that ensures high-quality data and annotations. Unlike simple web-crawled collections, our pipeline integrates rigorous forced alignment and a dynamic confidence-based filtering mechanism to exclude samples with unreliable boundaries, thereby guaranteeing temporal alignment accuracy. To validate the effectiveness of LEMAS-Dataset across diverse generative paradigms, we train two benchmark models with distinct architectures and task specializations on this dataset. LEMAS-TTS, built upon a non-autoregressive flow-matching framework, leverages the dataset's massive scale and linguistic diversity to achieve robust zero-shot multilingual synthesis. Our proposed accent-adversarial training and CTC loss mitigate cross-lingual accent issues, enhancing synthesis stability. Complementarily, LEMAS-Edit employs an autoregressive decoder-only architecture that formulates speech editing as a masked token infilling task. By exploiting precise word-level alignments to construct training masks and adopting adaptive decoding strategies, it achieves seamless, smooth-boundary speech editing with natural transitions. Experimental results demonstrate that models trained on LEMAS-Dataset deliver high-quality synthesis and editing performance, confirming the dataset's quality. We envision that this richly timestamp-annotated, fine-grained multilingual corpus will drive future advances in prompt-based speech generation systems.
+            We present the LEMAS-Dataset, which, to our knowledge, is currently the largest open-source multilingual speech corpus with word-level timestamps. Covering over 150,000 hours across 10 major languages, LEMAS-Dataset is constructed via a efficient data processing pipeline that ensures high-quality data and annotations. To validate the effectiveness of LEMAS-Dataset across diverse generative paradigms, we train two benchmark models with distinct architectures and task specializations on this dataset. LEMAS-TTS, built upon a non-autoregressive flow-matching framework, leverages the dataset's massive scale and linguistic diversity to achieve robust zero-shot multilingual synthesis. Our proposed accent-adversarial training and CTC loss mitigate cross-lingual accent issues, enhancing synthesis stability. Complementarily, LEMAS-Edit employs an autoregressive decoder-only architecture that formulates speech editing as a masked token infilling task. By exploiting precise word-level alignments to construct training masks and adopting adaptive decoding strategies, it achieves seamless, smooth-boundary speech editing with natural transitions. Experimental results demonstrate that models trained on LEMAS-Dataset deliver high-quality synthesis and editing performance, confirming the dataset's quality. We envision that this richly timestamp-annotated, fine-grained multilingual corpus will drive future advances in prompt-based speech generation systems.
           </p>
         </div>
       </div>
@@ -949,51 +949,6 @@
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
           <p class="audio-label">Reference text (RU)</p>
-          <p>Но я не могу сделать то, о чем вы просите.</p>
-        </div>
-        <div class="column has-text-right">
-          <div class="edit-audio-controls tts-audio-controls">
-            <div class="audio-control">
-              <span class="edit-audio-label">Reference (Ground Truth)</span>
-              <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/gt/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.mp3" preload="none"></audio>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="audio-row columns is-vcentered">
-        <div class="column is-two-thirds">
-          <p class="audio-label">Target text (RU)</p>
-          <p>Того, кто ниже ума, мы называем будду, дурачок.</p>
-        </div>
-        <div class="column has-text-right">
-          <div class="edit-audio-controls tts-audio-controls">
-            <div class="audio-control">
-              <span class="edit-audio-label">Baseline</span>
-              <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
-            </div>
-            <div class="audio-control">
-              <span class="edit-audio-label">LEMAS-TTS</span>
-              <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
-            </div>
-            <div class="audio-control">
-              <span class="edit-audio-label">TTS+Prosody</span>
-              <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TTS Example 17 -->
-    <div class="box audio-sample">
-      <h3 class="title is-5">Example 17</h3>
-      <div class="audio-row columns is-vcentered">
-        <div class="column is-two-thirds">
-          <p class="audio-label">Reference text (RU)</p>
           <p>Приветствую вас на канале вкусные рецепты.</p>
         </div>
         <div class="column has-text-right">
@@ -1033,54 +988,55 @@
       </div>
     </div>
 
-    <!-- TTS Example 18 -->
+    
+    <!-- TTS Example 17 -->
     <div class="box audio-sample">
-      <h3 class="title is-5">Example 18</h3>
+      <h3 class="title is-5">Example 17</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Reference text (VI)</p>
-          <p>Bàn ăn với mười hai môn đệ và khi các ông đang.</p>
+          <p class="audio-label">Reference text (RU)</p>
+          <p>Но я не могу сделать то, о чем вы просите.</p>
         </div>
         <div class="column has-text-right">
           <div class="edit-audio-controls tts-audio-controls">
             <div class="audio-control">
               <span class="edit-audio-label">Reference (Ground Truth)</span>
               <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/gt/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.mp3" preload="none"></audio>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.mp3" preload="none"></audio>
             </div>
           </div>
         </div>
       </div>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
-          <p class="audio-label">Target text (VI)</p>
-          <p>Và bì trộn, với cơm tấm. thế là mình có món, cơm tấm bì cho ngày hôm sau.</p>
+          <p class="audio-label">Target text (RU)</p>
+          <p>Того, кто ниже ума, мы называем будду, дурачок.</p>
         </div>
         <div class="column has-text-right">
           <div class="edit-audio-controls tts-audio-controls">
             <div class="audio-control">
               <span class="edit-audio-label">Baseline</span>
               <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
             </div>
             <div class="audio-control">
               <span class="edit-audio-label">LEMAS-TTS</span>
               <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
             </div>
             <div class="audio-control">
               <span class="edit-audio-label">TTS+Prosody</span>
               <button class="audio-button" type="button">▶</button>
-              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/ru_zh4PKvm69Wy-00242-00064133-00064454--ru_zN_k80_SlGk-00021-00007678-00008058.wav" preload="none"></audio>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TTS Example 19 -->
+    <!-- TTS Example 18 -->
     <div class="box audio-sample">
-      <h3 class="title is-5">Example 19</h3>
+      <h3 class="title is-5">Example 18</h3>
       <div class="audio-row columns is-vcentered">
         <div class="column is-two-thirds">
           <p class="audio-label">Reference text (VI)</p>
@@ -1117,6 +1073,52 @@
               <span class="edit-audio-label">TTS+Prosody</span>
               <button class="audio-button" type="button">▶</button>
               <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/vi_KIynHEaT0ak-00222-00060271-00060629--ru_zi6RULu96Vy-00001-00000259-00000600.wav" preload="none"></audio>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- TTS Example 19 -->
+    <div class="box audio-sample">
+      <h3 class="title is-5">Example 19</h3>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Reference text (VI)</p>
+          <p>Bàn ăn với mười hai môn đệ và khi các ông đang.</p>
+        </div>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Reference (Ground Truth)</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/gt/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.mp3" preload="none"></audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="audio-row columns is-vcentered">
+        <div class="column is-two-thirds">
+          <p class="audio-label">Target text (VI)</p>
+          <p>Và bì trộn, với cơm tấm. thế là mình có món, cơm tấm bì cho ngày hôm sau.</p>
+        </div>
+        <div class="column has-text-right">
+          <div class="edit-audio-controls tts-audio-controls">
+            <div class="audio-control">
+              <span class="edit-audio-label">Baseline</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/openaudio-s1-mini/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">LEMAS-TTS</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
+            </div>
+            <div class="audio-control">
+              <span class="edit-audio-label">TTS+Prosody</span>
+              <button class="audio-button" type="button">▶</button>
+              <audio class="audio-hidden" src="audios/tts_examples/lemas-tts-prosody/vi_5MHUnaEA3hg-00018-00007014-00007445--vi_u4R13wqPlvI-00020-00012738-00013308.wav" preload="none"></audio>
             </div>
           </div>
         </div>
